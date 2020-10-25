@@ -1,0 +1,9 @@
+{
+  "name": "buyList",
+  "version": "1.0.0",
+  "description": "Projeto de uma API Rest CRUD Typescript, TypeORM e PostgresSQL para o desafio da Tracking Trade",
+  "main": "index.js",
+  "repository": "https://github.com/isaquetdiniz/buyList.git",
+  "author": "isaquetdiniz <itd@cin.ufpe.br>",
+  "license": "MIT"
+}
