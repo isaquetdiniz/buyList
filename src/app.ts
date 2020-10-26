@@ -19,6 +19,7 @@ class Application {
 
   routes() {
     this.express.use(routes.example);
+    this.express.use(routes.auth);
   }
 
   client() {
