@@ -1,0 +1,26 @@
+{
+  "name": "buyList",
+  "version": "1.0.0",
+  "description": "Projeto de uma API Rest CRUD Typescript, TypeORM e PostgresSQL para o desafio da Tracking Trade",
+  "main": "index.js",
+  "repository": "https://github.com/isaquetdiniz/buyList.git",
+  "author": "isaquetdiniz <itd@cin.ufpe.br>",
+  "license": "MIT",
+  "devDependencies": {
+    "@types/node": "^14.14.3",
+    "ts-node-dev": "^1.0.0",
+    "typescript": "^4.0.3"
+  },
+  "scripts": {
+    "dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
+    "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js"
+  },
+  "dependencies": {
+    "cors": "^2.8.5",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "pg": "^8.4.1",
+    "reflect-metadata": "^0.1.13",
+    "typeorm": "^0.2.28"
+  }
+}
