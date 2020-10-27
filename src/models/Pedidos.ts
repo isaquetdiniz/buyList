@@ -1,4 +1,12 @@
-import { Entity, PrimaryGeneratedColumn, Column } from "typeorm";
+import {
+  Entity,
+  PrimaryGeneratedColumn,
+  Column,
+  OneToOne,
+  JoinColumn,
+} from "typeorm";
+
+import { Produto } from "./Produtos";
 
 @Entity()
 export class Pedido {
@@ -11,6 +19,7 @@ export class Pedido {
   @Column({ type: "int" })
   precoSomatorio: number;
 
-  @Column({ type: "int" })
-  produtoId: number;
+  @OneToOne(() => Produto)
+  @JoinColumn()
+  produto: Produto;
 }
