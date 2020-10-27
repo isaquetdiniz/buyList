@@ -6,11 +6,11 @@ import {
   JoinColumn,
 } from "typeorm";
 
-import { Produto } from "./Produtos";
+import { Produtos } from "./Produtos";
 
 @Entity()
-export class Pedido {
-  @PrimaryGeneratedColumn()
+export class Pedidos {
+  @PrimaryGeneratedColumn("increment")
   id: number;
 
   @Column({ type: "int" })
@@ -19,7 +19,7 @@ export class Pedido {
   @Column({ type: "int" })
   precoSomatorio: number;
 
-  @OneToOne(() => Produto)
+  @OneToOne(() => Produtos)
   @JoinColumn()
-  produto: Produto;
+  produto: Produtos;
 }

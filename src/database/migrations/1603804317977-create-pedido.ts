@@ -15,6 +15,8 @@ export class createPedido1603804317977 implements MigrationInterface {
             name: "id",
             type: "int",
             isPrimary: true,
+            isGenerated: true,
+            generationStrategy: "increment",
           },
           {
             name: "quantidade",
@@ -27,6 +29,7 @@ export class createPedido1603804317977 implements MigrationInterface {
           {
             name: "produtoId",
             type: "int",
+            isNullable: true,
           },
         ],
       }),
@@ -38,8 +41,10 @@ export class createPedido1603804317977 implements MigrationInterface {
         columns: [
           {
             name: "id",
-            type: "int",
+            type: "integer",
+            isGenerated: true,
             isPrimary: true,
+            generationStrategy: "increment",
           },
           {
             name: "nome",
