@@ -38,9 +38,22 @@ class ProdutoController {
   }
 
   async delete(req: Request, res: Response): Promise<Response> {
+    if (!req.params)
+      return res.status(404).json({ error: "Params not found!" });
+
+    const produtoId = req.params.id;
+    console.log(produtoId);
+    const manager = getManager();
+
+    const produto = await manager.findOne(Produtos, produtoId);
+
+    if (!produto) return res.status(404).json({ error: "ID not found!" });
+
+    await manager.delete(Produtos, produtoId);
+
     return res
       .status(200)
-      .json({ message: `Está funcionando!!!!, id: ${req.userId}` });
+      .json({ message: `Produto com id ${produtoId} deletado com sucesso!` });
   }
 }
 
