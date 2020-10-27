@@ -11,6 +11,8 @@ router
   .put(authVerify, PedidoController.update)
   .delete(authVerify, PedidoController.delete);
 
+router.route("/pedido").get(authVerify, PedidoController.list);
+
 router.route("/pedido/:id_produto").post(authVerify, PedidoController.create);
 
 export default router;

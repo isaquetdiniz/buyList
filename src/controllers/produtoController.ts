@@ -5,6 +5,26 @@ import { Produtos } from "../models/Produtos";
 
 class ProdutoController {
   async list(req: Request, res: Response): Promise<Response> {
+    const manager = getManager();
+
+    if (!req.params.id) {
+      const count = await manager.count(Produtos);
+      return res
+        .status(200)
+        .json({ message: `Existem ${count} produtos cadastrados` });
+    }
+
+    const produtoId = req.params.id;
+
+    const produto = await manager.findOne(Produtos, produtoId);
+
+    if (!produto)
+      return res
+        .status(404)
+        .json({ message: `Produto com id ${produtoId} não existe` });
+
+    return res.status(200).json(produto);
+
     return res
       .status(200)
       .json({ message: `Está funcionando!!!!, id: ${req.userId}` });
