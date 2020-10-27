@@ -57,11 +57,6 @@ export class createPedido1603804317977 implements MigrationInterface {
             name: "categoria",
             type: "varchar",
           },
-          {
-            name: "pedidoId",
-            type: "int",
-            isNullable: true,
-          },
         ],
       }),
       true
@@ -76,29 +71,14 @@ export class createPedido1603804317977 implements MigrationInterface {
         onDelete: "CASCADE",
       })
     );
-
-    await queryRunner.createForeignKey(
-      "produtos",
-      new TableForeignKey({
-        columnNames: ["pedidoId"],
-        referencedColumnNames: ["id"],
-        referencedTableName: "pedidos",
-        onDelete: "CASCADE",
-      })
-    );
   }
 
   public async down(queryRunner: QueryRunner): Promise<void> {
     const pedidos = await queryRunner.getTable("pedidos");
-    const produtos = await queryRunner.getTable("produtos");
     const foreignKeyPedidos = pedidos.foreignKeys.find(
       (fk) => fk.columnNames.indexOf("produtoId") !== -1
     );
-    const foreignKeyProdutos = produtos.foreignKeys.find(
-      (fk) => fk.columnNames.indexOf("pedidoId") !== -1
-    );
     await queryRunner.dropForeignKey("pedidos", foreignKeyPedidos);
-    await queryRunner.dropForeignKey("produtos", foreignKeyProdutos);
     await queryRunner.dropTable("pedidos");
     await queryRunner.dropTable("produtos");
   }

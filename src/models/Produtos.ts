@@ -6,8 +6,6 @@ import {
   JoinColumn,
 } from "typeorm";
 
-import { Pedido } from "./Pedidos";
-
 @Entity()
 export class Produto {
   @PrimaryGeneratedColumn()
@@ -24,8 +22,4 @@ export class Produto {
 
   @Column({ type: "varchar" })
   categoria: string;
-
-  @OneToOne(() => Pedido)
-  @JoinColumn()
-  pedido: Pedido;
 }
