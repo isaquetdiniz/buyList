@@ -21,7 +21,7 @@ export class createPedido1603804317977 implements MigrationInterface {
             type: "int",
           },
           {
-            name: "preco-somatorio",
+            name: "precoSomatorio",
             type: "float",
           },
           {
@@ -50,7 +50,7 @@ export class createPedido1603804317977 implements MigrationInterface {
             type: "varchar",
           },
           {
-            name: "preco-unitario",
+            name: "precoUnitario",
             type: "float",
           },
           {
