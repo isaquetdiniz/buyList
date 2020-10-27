@@ -24,6 +24,10 @@ export class createPedido1603804317977 implements MigrationInterface {
             name: "preco-somatorio",
             type: "float",
           },
+          {
+            name: "produtoId",
+            type: "int",
+          },
         ],
       }),
       true
@@ -52,6 +56,11 @@ export class createPedido1603804317977 implements MigrationInterface {
           {
             name: "categoria",
             type: "varchar",
+          },
+          {
+            name: "pedidoId",
+            type: "int",
+            isNullable: true,
           },
         ],
       }),
