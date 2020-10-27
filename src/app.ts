@@ -19,6 +19,8 @@ class Application {
 
   routes() {
     this.express.use(routes.example);
+    this.express.use(routes.pedido);
+    this.express.use(routes.produto);
     this.express.use(routes.auth);
   }
 
