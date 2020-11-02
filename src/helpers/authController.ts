@@ -7,7 +7,7 @@ class authController {
     if (req.body.user === "isaque" && req.body.pwd === "123") {
       const id = 1;
       let token = jwt.sign({ id }, process.env.SECRET, {
-        expiresIn: 600,
+        expiresIn: 3600,
       });
       return res.json({ auth: true, token: token });
     }
