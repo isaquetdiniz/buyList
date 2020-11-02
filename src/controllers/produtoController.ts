@@ -34,7 +34,7 @@ class ProdutoController {
     const produtoId = req.params.id;
     const { nome, descricao, precoUnitario, categoria } = req.body;
 
-    if (!nome && !descricao && !precoUnitario && !categoria)
+    if (!nome || !descricao || !precoUnitario || !categoria)
       return res.status(404).json({ message: "Params not found!" });
 
     const produto = await manager.findOne(Produtos, produtoId);
@@ -42,7 +42,7 @@ class ProdutoController {
     if (!produto)
       return res
         .status(404)
-        .json({ message: `Produto com id {produtoId} não encontrado!` });
+        .json({ message: `Produto com id ${produtoId} não encontrado!` });
 
     await manager.update(Produtos, produto, {
       nome: nome ? nome : produto.nome,
@@ -63,6 +63,9 @@ class ProdutoController {
 
     const { nome, categoria, precoUnitario, descricao } = req.body;
 
+    if (!nome || !descricao || !precoUnitario || !categoria)
+      return res.status(404).json({ message: "Params not found!" });
+
     const newProduto = manager.create(Produtos, {
       nome,
       categoria,
@@ -82,7 +85,6 @@ class ProdutoController {
       return res.status(404).json({ error: "Params not found!" });
 
     const produtoId = req.params.id;
-    console.log(produtoId);
     const manager = getManager();
 
     const produto = await manager.findOne(Produtos, produtoId);
