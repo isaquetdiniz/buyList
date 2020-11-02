@@ -2,6 +2,7 @@ import { getManager } from "typeorm";
 import { Request, Response } from "express";
 
 import { Pedidos } from "../models/Pedidos";
+import { Produtos } from "../models/Produtos";
 
 class PedidoController {
   async list(req: Request, res: Response): Promise<Response> {
@@ -31,10 +32,7 @@ class PedidoController {
 
     const manager = getManager();
     const pedidoId = req.params.id;
-    const { quantidade, precoSomatorio, produtoId } = req.body;
-
-    if (!quantidade && !precoSomatorio && !produtoId)
-      return res.status(404).json({ message: "Params not found!" });
+    const { quantidade, produtoId } = req.body;
 
     const pedido = await manager.findOne(Pedidos, pedidoId);
 
@@ -43,11 +41,45 @@ class PedidoController {
         .status(404)
         .json({ message: `Pedido com id ${pedidoId} não encontrado!` });
 
-    await manager.update(Pedidos, pedido, {
-      quantidade: quantidade ? quantidade : pedido.quantidade,
-      precoSomatorio: precoSomatorio ? precoSomatorio : pedido.precoSomatorio,
-      produto: produtoId ? produtoId : pedido.produto,
-    });
+    if (!quantidade && !produtoId) {
+      return res.status(404).json({ message: "Params not found!" });
+    } else if (!quantidade) {
+      const idNovoProduto = produtoId;
+      const newProduto = await manager.findOne(Produtos, idNovoProduto);
+      if (!newProduto)
+        return res
+          .status(404)
+          .json({ message: `Produto com ID ${idNovoProduto} não existe!` });
+      const newPreco = pedido.quantidade * newProduto.precoUnitario;
+
+      await manager.update(Pedidos, pedido, {
+        precoSomatorio: newPreco,
+        produto: idNovoProduto,
+      });
+    } else if (!produtoId) {
+      const precoProduto = pedido.precoSomatorio / pedido.quantidade;
+      const newQuantidade = quantidade;
+      const newPreco = newQuantidade * precoProduto;
+
+      await manager.update(Pedidos, pedido, {
+        quantidade: newQuantidade,
+        precoSomatorio: newPreco,
+      });
+    } else {
+      const newProduto = await manager.findOne(Produtos, produtoId);
+      if (!newProduto)
+        return res
+          .status(404)
+          .json({ message: `Produto com ID ${produtoId} não encontrado!` });
+      const newPreco = quantidade * newProduto.precoUnitario;
+      const newProdutoId = newProduto.id;
+
+      await manager.update(Pedidos, pedido, {
+        quantidade: quantidade,
+        precoSomatorio: newPreco,
+        produto: newProduto,
+      });
+    }
 
     return res
       .status(200)
@@ -59,9 +91,19 @@ class PedidoController {
 
     const manager = getManager();
 
-    const { quantidade, precoSomatorio, produtoId } = req.body;
+    const { quantidade, produtoId } = req.body;
 
-    const produto = produtoId;
+    if (!quantidade || !produtoId)
+      return res.status(404).json({ error: "Params not found!" });
+
+    const produto = await manager.findOne(Produtos, produtoId);
+
+    if (!produto)
+      return res
+        .status(404)
+        .json({ error: `Produto com ID ${produtoId} não encontrado!` });
+
+    const precoSomatorio = quantidade * produto.precoUnitario;
 
     const newPedido = manager.create(Pedidos, {
       quantidade,
