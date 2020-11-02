@@ -9,9 +9,11 @@ class ProdutoController {
 
     if (!req.params.id) {
       const count = await manager.count(Produtos);
-      return res
-        .status(200)
-        .json({ message: `Existem ${count} produtos cadastrados` });
+      const produtos = await manager.find(Produtos);
+      return res.status(200).json({
+        message: `Existem ${count} produtos cadastrados`,
+        produtos: produtos,
+      });
     }
 
     const produtoId = req.params.id;
@@ -34,7 +36,7 @@ class ProdutoController {
     const produtoId = req.params.id;
     const { nome, descricao, precoUnitario, categoria } = req.body;
 
-    if (!nome || !descricao || !precoUnitario || !categoria)
+    if (!nome && !descricao && !precoUnitario && !categoria)
       return res.status(404).json({ message: "Params not found!" });
 
     const produto = await manager.findOne(Produtos, produtoId);
