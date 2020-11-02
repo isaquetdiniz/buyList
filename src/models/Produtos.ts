@@ -7,8 +7,8 @@ import {
 } from "typeorm";
 
 @Entity()
-export class Produto {
-  @PrimaryGeneratedColumn()
+export class Produtos {
+  @PrimaryGeneratedColumn("increment")
   id: number;
 
   @Column({ type: "varchar" })

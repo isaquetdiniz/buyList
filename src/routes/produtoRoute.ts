@@ -11,6 +11,8 @@ router
   .put(authVerify, ProdutoController.update)
   .delete(authVerify, ProdutoController.delete);
 
+router.route("/produto").get(authVerify, ProdutoController.list);
+
 router.route("/produto").post(authVerify, ProdutoController.create);
 
 export default router;
