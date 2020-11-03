@@ -17,7 +17,9 @@
   "scripts": {
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
-    "test": "jest"
+    "pretest": "NODE_ENV=test yarn typeorm migration:run",
+    "test": "NODE_ENV=test jest",
+    "posttest": "NODE_ENV=test yarn typeorm migration:revert"
   },
   "dependencies": {
     "cors": "^2.8.5",
