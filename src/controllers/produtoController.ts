@@ -8,10 +8,20 @@ class ProdutoController {
     const manager = getManager();
 
     if (!req.params.id) {
-      const count = await manager.count(Produtos);
-      const produtos = await manager.find(Produtos);
+      const { page } = req.query;
+      const [produtos, count] = await manager.findAndCount(Produtos, {
+        skip: page * 10 || 0,
+        take: 10,
+      });
+      let results;
+
       return res.status(200).json({
         message: `Existem ${count} produtos cadastrados`,
+        page: parseInt(page, 10) || 0,
+        results:
+          produtos.length === 1 || produtos.length === 0
+            ? produtos.length
+            : produtos.length - 1,
         produtos: produtos,
       });
     }
