@@ -9,7 +9,7 @@ class PedidoController {
     const manager = getManager();
 
     if (!req.params.id) {
-      const pedidos = await manager.find(Pedidos);
+      const pedidos = await manager.find(Pedidos, { relations: ["produto"] });
 
       if (!pedidos) return res.status(404).json({ error: "Not found Pedidos" });
 
@@ -18,7 +18,9 @@ class PedidoController {
 
     const pedidoId = req.params.id;
 
-    const pedido = await manager.findOne(Pedidos, pedidoId);
+    const pedido = await manager.findOne(Pedidos, pedidoId, {
+      relations: ["produto"],
+    });
 
     if (!pedido)
       return res.status(404).json({ error: `Pedido não encontrado` });
