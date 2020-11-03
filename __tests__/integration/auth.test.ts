@@ -1,8 +1,16 @@
+import request from "supertest";
+import { app } from "../../src/app";
+
 describe("Authentication", () => {
   it("Should received JWT token when authenticated with valid credentials", async () => {
-    const x = 2;
-    const y = 6;
-    const sum = x + y;
-    expect(sum).toBe(8);
+    const response = await request(app)
+      .post("/login")
+      .send({
+        user: "isaque",
+        pwd: "123",
+      });
+
+    expect(response.body).toHaveProperty("auth", true);
+    expect(response.body).toHaveProperty("token");
   });
 });
