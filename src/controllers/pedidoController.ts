@@ -9,11 +9,24 @@ class PedidoController {
     const manager = getManager();
 
     if (!req.params.id) {
-      const pedidos = await manager.find(Pedidos, { relations: ["produto"] });
+      const { page } = req.query;
+      const [pedidos, count] = await manager.findAndCount(Pedidos, {
+        relations: ["produto"],
+        order: { id: "ASC" },
+        skip: page * 10 || 0,
+        take: 10,
+      });
+      let results;
 
-      if (!pedidos) return res.status(404).json({ error: "Not found Pedidos" });
-
-      return res.status(200).json(pedidos);
+      return res.status(200).json({
+        message: `Existem ${count} pedidos cadastrados`,
+        page: parseInt(page, 10) || 0,
+        results:
+          pedidos.length === 1 || pedidos.length === 0
+            ? pedidos.length
+            : pedidos.length - 1,
+        pedidos: pedidos,
+      });
     }
 
     const pedidoId = req.params.id;
