@@ -1,14 +1,14 @@
 import request from "supertest";
 import { getManager } from "typeorm";
+import { Pedidos } from "../../src/models/Pedidos";
 import { Produtos } from "../../src/models/Produtos";
 import { app } from "../../src/app";
 import { createConnection } from "typeorm";
 import { Users } from "../../src/models/Users";
 
-describe("Produtos", () => {
+describe("Pedidos", () => {
   beforeAll(async () => {
     await createConnection();
-
     const manager = getManager();
     const newUser = await manager.create(Users, {
       name: "TrackingTrade",
@@ -16,6 +16,13 @@ describe("Produtos", () => {
       password: "trackingtrade",
     });
     await manager.save(newUser);
+    const newProduto = await manager.create(Produtos, {
+      nome: "Tomate",
+      descricao: "Tomate vermelhinho da fazenda do seu zé",
+      precoUnitario: 4,
+      categoria: "Verduras",
+    });
+    await manager.save(newProduto);
     return;
   });
 
@@ -25,19 +32,17 @@ describe("Produtos", () => {
     await manager.delete(Produtos, { nome: "Tomate" });
   });
 
-  it("Should create a product if the values are correct", async () => {
+  it("Should create a pedido if the values are correct", async () => {
     const res = await request(app)
       .post("/login")
       .send({ name: "TrackingTrade", password: "trackingtrade" });
     const token = res.body.token;
 
     const response = await request(app)
-      .post("/produto")
+      .post("/pedido")
       .send({
-        nome: "Tomate",
-        descricao: "Tomate vermelhinho da fazenda do seu zé",
-        precoUnitario: 4,
-        categoria: "Verduras",
+        quantidade: 10,
+        produtoId: 1,
       })
       .set("x-access-token", token);
 
@@ -45,19 +50,17 @@ describe("Produtos", () => {
     expect(response.body).toHaveProperty("message");
   });
 
-  it("Should edit a product if the values are correct", async () => {
+  it("Should edit a pedido if the values are correct", async () => {
     const res = await request(app)
       .post("/login")
       .send({ name: "TrackingTrade", password: "trackingtrade" });
     const token = res.body.token;
 
     const response = await request(app)
-      .put("/produto/2")
+      .put("/pedido/1")
       .send({
-        nome: "Cebola",
-        descricao: "Cebola Roxa da fazenda do seu zé",
-        precoUnitario: 7,
-        categoria: "Verduras",
+        quantidade: 100,
+        produtoId: 1,
       })
       .set("x-access-token", token);
 
@@ -65,42 +68,42 @@ describe("Produtos", () => {
     expect(response.body).toHaveProperty("message");
   });
 
-  it("Should list a product if he exists", async () => {
+  it("Should list a pedidos if he exists", async () => {
     const res = await request(app)
       .post("/login")
       .send({ name: "TrackingTrade", password: "trackingtrade" });
     const token = res.body.token;
 
     const response = await request(app)
-      .get("/produto/2")
+      .get("/pedido/1")
       .set("x-access-token", token);
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("categoria");
+    expect(response.body).toHaveProperty("precoSomatorio");
   });
 
-  it("Should list products pagination if he exists", async () => {
+  it("Should list pedidos pagination if he exists", async () => {
     const res = await request(app)
       .post("/login")
       .send({ name: "TrackingTrade", password: "trackingtrade" });
     const token = res.body.token;
 
     const response = await request(app)
-      .get("/produto?page=0")
+      .get("/pedido?page=0")
       .set("x-access-token", token);
 
     expect(response.status).toBe(200);
-    expect(response.body).toHaveProperty("produtos");
+    expect(response.body).toHaveProperty("pedidos");
   });
 
-  it("Should delete a product if it exists", async () => {
+  it("Should delete a pedido if it exists", async () => {
     const res = await request(app)
       .post("/login")
       .send({ name: "TrackingTrade", password: "trackingtrade" });
     const token = res.body.token;
 
     const response = await request(app)
-      .delete("/produto/2")
+      .delete("/pedido/1")
       .set("x-access-token", token);
 
     expect(response.status).toBe(200);

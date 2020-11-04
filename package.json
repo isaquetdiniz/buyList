@@ -21,7 +21,7 @@
     "dev": "ts-node-dev --transpile-only --ignore-watch node_modules src/server.ts",
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "pretest": "NODE_ENV=test yarn typeorm migration:run",
-    "test": "NODE_ENV=test jest",
+    "test": "NODE_ENV=test jest --runInBand",
     "posttest": "NODE_ENV=test yarn typeorm migration:revert && NODE_ENV=test yarn typeorm migration:revert"
   },
   "dependencies": {

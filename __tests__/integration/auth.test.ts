@@ -7,10 +7,7 @@ import "reflect-metadata";
 
 describe("Authentication", () => {
   beforeAll(async () => {
-    return createConnection();
-  });
-
-  beforeEach(async () => {
+    await createConnection();
     const manager = getManager();
     const newUser = await manager.create(Users, {
       name: "TrackingTrade",
@@ -18,15 +15,12 @@ describe("Authentication", () => {
       password: "trackingtrade",
     });
     await manager.save(newUser);
+    return;
   });
 
-  afterEach(async () => {
+  afterAll(async () => {
     const manager = getManager();
-    await manager.delete(Users, {
-      name: "TrackingTrade",
-      email: "tracking@trade.com",
-      password: "trackingtrade",
-    });
+    await manager.delete(Users, { name: "TrackingTrade" });
   });
 
   it("Should received JWT token when authenticated with valid credentials", async () => {
