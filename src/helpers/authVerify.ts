@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Users } from "../../src/models/User";
+import { Users } from "../../src/models/Users";
 import { getManager } from "typeorm";
 import jwt from "jsonwebtoken";
 

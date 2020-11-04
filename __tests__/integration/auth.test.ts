@@ -1,18 +1,35 @@
 import request from "supertest";
 import { getManager } from "typeorm";
 import { app } from "../../src/app";
-import { Users } from "../../src/models/User";
+import { Users } from "../../src/models/Users";
+import { createConnection } from "typeorm";
+import "reflect-metadata";
 
 describe("Authentication", () => {
-  it("Should received JWT token when authenticated with valid credentials", async () => {
-    const manager = getManager();
+  beforeAll(async () => {
+    return createConnection();
+  });
 
+  beforeEach(async () => {
+    const manager = getManager();
     const newUser = await manager.create(Users, {
       name: "TrackingTrade",
       email: "tracking@trade.com",
       password: "trackingtrade",
     });
+    await manager.save(newUser);
+  });
 
+  afterEach(async () => {
+    const manager = getManager();
+    await manager.delete(Users, {
+      name: "TrackingTrade",
+      email: "tracking@trade.com",
+      password: "trackingtrade",
+    });
+  });
+
+  it("Should received JWT token when authenticated with valid credentials", async () => {
     const response = await request(app)
       .post("/login")
       .send({
@@ -26,14 +43,6 @@ describe("Authentication", () => {
   });
 
   it("Should not received JWT token because the credentials are wrong", async () => {
-    const manager = getManager();
-
-    const newUser = await manager.create(Users, {
-      name: "TrackingTrade",
-      email: "tracking@trade.com",
-      password: "trackingtrade",
-    });
-
     const response = await request(app)
       .post("/login")
       .send({
@@ -42,7 +51,7 @@ describe("Authentication", () => {
       });
 
     expect(response.status).toBe(404);
-    expect(response.body).toHaveProperty("message", "Login inválido!");
+    expect(response.body).toHaveProperty("message", "Login inválido");
   });
 
   it("Logout", async () => {

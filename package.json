@@ -22,7 +22,7 @@
     "typeorm": "ts-node-dev ./node_modules/typeorm/cli.js",
     "pretest": "NODE_ENV=test yarn typeorm migration:run",
     "test": "NODE_ENV=test jest",
-    "posttest": "NODE_ENV=test yarn typeorm migration:revert"
+    "posttest": "NODE_ENV=test yarn typeorm migration:revert && NODE_ENV=test yarn typeorm migration:revert"
   },
   "dependencies": {
     "cors": "^2.8.5",

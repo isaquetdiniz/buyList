@@ -1,5 +1,5 @@
 import { Request, Response } from "express";
-import { Users } from "../../src/models/User";
+import { Users } from "../../src/models/Users";
 import { getManager } from "typeorm";
 import "dotenv/config";
 import jwt from "jsonwebtoken";
@@ -22,7 +22,7 @@ class authController {
       expiresIn: 3600,
     });
 
-    return res.status(200).json({ auth: true, token: token }, user);
+    return res.status(200).json({ auth: true, token: token, user: user });
   }
   async logout(req: Request, res: Response): Promise<Response> {
     res.status(200).json({ auth: false, token: null });
