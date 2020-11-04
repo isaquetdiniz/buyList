@@ -20,7 +20,7 @@ O projeto consegue realizar as operações básicas e dar o feedback para o usu�
 ### O primeiro passo é rodar o docker
 1. Se você não tem o docker instalado, pode seguir a instalação por [aqui](https://docs.docker.com/get-docker/).
 2. Agora, em seu terminal rode: ```sudo docker pull postgres``` para baixar uma nova imagem docker postgres.
-3. Após isso, é possível iniciar o container com ```sudo docker run -p 5402:5402 -e POSTGRES_PASSWORD=docker postgres```
+3. Após isso, é possível iniciar o container com ```sudo docker run -p 5432:5432 -e POSTGRES_PASSWORD=docker postgres```
 4. Com o container rodando, abra um novo terminal e digite ```sudo docker ps``` para listá-lo e copie o seu **CONTAINER ID**.
 5. Agora, vamos acessá-lo usando ```sudo docker exec -it <CONTAINER ID> bash```
 6. Dentro do nosso container, é só acessar o postgres com ```psql -U postgres```
@@ -38,7 +38,7 @@ SECRET=naruto
 
 DATABASE_TYPE=postgres
 DATABASE_HOST=localhost
-DATABASE_PORT=5402
+DATABASE_PORT=5432
 DATABASE_USER=postgres
 DATABASE_PASSWORD=docker
 DATABASE_DB=buylist
