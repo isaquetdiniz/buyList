@@ -1,4 +1,6 @@
 import { Request, Response } from "express";
+import { Users } from "../../src/models/User";
+import { getManager } from "typeorm";
 import jwt from "jsonwebtoken";
 
 const authVerify = (req: Request, res: Response, next): Promise<Response> => {
