@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 import { Table, Space, Button } from "antd";
 
@@ -21,12 +21,13 @@ interface ProductsSource {
   categoria: string;
 }
 const TableProduct: React.FC<Product> = ({ data }) => {
-  let dataSource: Array<ProductsSource> = [];
+  const [dataSource, setDataSource] = useState<Array<ProductsSource>>([]);
 
   const formatData = () => {
-    if (data && false !== false) {
-      data.map((produto) => {
-        return dataSource.push({
+    if (data !== []) {
+      const arrayProducts: Array<ProductsSource> = [];
+      data.forEach((produto) => {
+        arrayProducts.push({
           key: produto.id,
           id: produto.id,
           nome: produto.nome,
@@ -34,7 +35,7 @@ const TableProduct: React.FC<Product> = ({ data }) => {
           categoria: produto.categoria,
         });
       });
-      console.log(dataSource);
+      setDataSource(arrayProducts);
     }
   };
   const columns = [
