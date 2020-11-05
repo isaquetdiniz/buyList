@@ -2,7 +2,10 @@ import React from "react";
 
 import { Table, Space, Button } from "antd";
 
-const TableProduct: React.FC = () => {
+interface Product {
+  data: object[];
+}
+const TableProduct: React.FC<Product> = ({ data }) => {
   const dataSource = [
     {
       key: "1",

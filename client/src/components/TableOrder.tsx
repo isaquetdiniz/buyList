@@ -2,7 +2,10 @@ import React from "react";
 
 import { Table, Space, Button } from "antd";
 
-const TableOrder: React.FC = () => {
+interface Order {
+  data: object[];
+}
+const TableOrder: React.FC<Order> = ({ data }) => {
   const dataSource = [
     {
       key: "1",
