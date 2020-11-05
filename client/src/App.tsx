@@ -1,25 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Redirect,
+} from "react-router-dom";
+
+import Login from "./views/login";
+import Edit from "./views/edit";
+import { useAuth } from "./context/AuthContextProvider";
+
+import "antd/dist/antd.css";
+import "./index.css";
 
 function App() {
+  const token = useAuth()[0];
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <Router>
+      <Switch>
+        <Route path="/" exact>
+          {token ? <Redirect to="/edit" /> : <Redirect to="/login" />}
+        </Route>
+        <Route path="/login" component={token ? Edit : Login} />
+        <Route path="/edit" component={token ? Edit : Login} />
+        <Route component={token ? Edit : Login} />
+      </Switch>
+    </Router>
   );
 }
 
