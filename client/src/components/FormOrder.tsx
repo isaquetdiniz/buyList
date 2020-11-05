@@ -9,7 +9,7 @@ interface Produto {
   nome: string;
 }
 interface Order {
-  data: Array<Produto>;
+  data?: Array<Produto>;
 }
 const FormOrder: React.FC<Order> = ({ data }) => {
   const [form] = Form.useForm();

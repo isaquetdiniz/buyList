@@ -83,7 +83,7 @@ const Edit: React.FC = () => {
         <Button type="primary" onClick={() => setVisibleNewOrder(true)}>
           Adicionar Pedido
         </Button>
-        <TableOrder data={orders} />
+        <TableOrder data={orders} dataProducts={products} />
       </Space>
       <Modal
         title="Cadastrar Novo Produto"

@@ -3,6 +3,8 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContextProvider";
 import { Table, Space, Button, Modal } from "antd";
 
+import FormOrder from "./FormOrder";
+
 enum Produto {
   id,
   nome,
@@ -18,20 +20,29 @@ interface Orders {
   precoSomatorio: string;
 }
 
+interface Products {
+  id: string;
+  nome: string;
+}
+
 interface Order {
   data: Array<Orders>;
+  dataProducts: Array<Products>;
 }
 
 interface OrdersSource {
   key: string;
   id: string;
   produto: Produto.nome;
+  produtoId: Produto.id;
   quantidade: string;
   precoSomatorio: string;
 }
 
-const TableOrder: React.FC<Order> = ({ data }) => {
+const TableOrder: React.FC<Order> = ({ data, dataProducts }) => {
   const [dataSource, setDataSource] = useState<Array<OrdersSource>>([]);
+  const [visibleEditOrder, setVisibleEditOrder] = useState<boolean>();
+  const [details, setDetails] = useState<Orders>();
 
   const token = useAuth()[0];
   const setAttInformations = useAuth()[3];
@@ -60,11 +71,12 @@ const TableOrder: React.FC<Order> = ({ data }) => {
   const formatData = () => {
     if (data !== []) {
       const arrayDataSource: Array<OrdersSource> = [];
-      data.forEach((pedido) => {
+      data.forEach((pedido: any) => {
         arrayDataSource.push({
           key: pedido.id,
           id: pedido.id,
-          produto: pedido.produto,
+          produto: pedido.produto.nome,
+          produtoId: pedido.produto.id,
           quantidade: pedido.quantidade,
           precoSomatorio: pedido.precoSomatorio,
         });
@@ -91,7 +103,15 @@ const TableOrder: React.FC<Order> = ({ data }) => {
           <Button type="primary" onClick={() => {}}>
             Informações
           </Button>
-          <Button onClick={() => {}}>Editar</Button>
+          <Button
+            onClick={() => {
+              setVisibleEditOrder(true);
+              console.log(record);
+              setDetails(record);
+            }}
+          >
+            Editar
+          </Button>
           <Button
             type="primary"
             danger
@@ -110,7 +130,21 @@ const TableOrder: React.FC<Order> = ({ data }) => {
     formatData();
   }, [data]);
 
-  return <Table dataSource={dataSource} columns={columns}></Table>;
+  return (
+    <>
+      <Table dataSource={dataSource} columns={columns}></Table>
+      <Modal
+        title="Editar Produto"
+        visible={visibleEditOrder}
+        onCancel={() => {
+          setVisibleEditOrder(false);
+        }}
+        footer={null}
+      >
+        <FormOrder data={dataProducts} />
+      </Modal>
+    </>
+  );
 };
 
 export default TableOrder;
