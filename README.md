@@ -2,17 +2,18 @@
 Repositório criado para o desafio técnico no estágio da Tracking Trade
 
 ## O Desafio
-É construir uma API REST CRUD(Create, Read, Update, Delete) com JWT, utilizando Typescript, e POSTGRES como banco de dados, junto à uma integração com testes automatizados.
+É construir uma API REST CRUD(Create, Read, Update, Delete) com JWT, utilizando Typescript, e POSTGRES como banco de dados, junto à uma integração com testes automatizados e uma interface para visualização dos mesmos.
 
 ## Minhas Escolhas
-Para o desafio, escolhi construir o back utilizando Node (Express, Typescript, TypeORM), com o Banco de Dados rodando através do Docker (tanto o para teste, quando o de desenvolvimento), e JEST como framework de testes. 
+Para o desafio, escolhi construir o back utilizando Node (Express, Typescript, TypeORM), com o Banco de Dados rodando através do Docker (tanto o para teste, quando o de desenvolvimento), JEST como framework de testes, e ReactJS - com TypeScrip - no Front. 
 
 ## O Resultado
 O projeto consegue realizar as operações básicas e dar o feedback para o usuário, mas possui alguns pontos de melhoria importantes:
 * Melhoria na segurança do TOKEN de acesso
 * Melhoria na autenticação do usuário
 * Mensagens de Feedback
-* Melhoria na quantidade e qualidade dos testes 
+* Melhoria na quantidade e qualidade dos testes
+* Melhoria no Design e Responsividade
 
 ## Como rodar o projeto?
 É possível que você tenha uma melhor experiência caso esteja utilizando Linux.
@@ -30,7 +31,7 @@ O projeto consegue realizar as operações básicas e dar o feedback para o usu�
 
 ### Com o docker e o banco de dados criado
 1. Vamos configurar o **.env** para poder rodar o nosso server. 
-2. Entre na pasta do server, crie um arquivo .env com:
+2. Entre na pasta do server, e crie um arquivo .env com:
 ```
 PORT=3001
 
@@ -55,6 +56,19 @@ DATABASE_DB_TEST=buytestlist
 
 ### Com o servidor rodando
 1. Podemos abrir o Postbird ou o Insominia para visualizar o funcionamento das rotas e realizar as requisições nas rotas.
+2. Realize um post em ```localhost:3001/user``` e no body passe um JSON com (ou o seu usuário e senha): 
+```
+{
+  "name": "trackingtrade",
+  "password": "tracking"
+}
+```
+### Após criar nosso usuário
+1. Podemos rodar o nosso front, para isso navegue até o client
+2. Instale as dependências com ```yarn```
+3. Rode o projeto com ```yarn start```
+4. Se ele não abrir automaticamente, estará rodando em ```localhost:3000```
+5. Insira o usuário e senha que cadastrou e teste a interface
 
 #### Se ocorrer erro por causa da versão do Node, é possível resolver com (e repetir o comando de instalação):
 ```
