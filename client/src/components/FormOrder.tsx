@@ -93,7 +93,6 @@ const FormOrder: React.FC<Order> = ({ data, isEdit, details }) => {
                   );
                 })
               : ""}
-            <Select.Option value={1}>Tomate</Select.Option>
           </Select>
         </Form.Item>
         <Form.Item

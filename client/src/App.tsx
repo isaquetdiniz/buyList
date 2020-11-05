@@ -11,6 +11,7 @@ import Edit from "./views/edit";
 import { useAuth } from "./context/AuthContextProvider";
 
 import "antd/dist/antd.css";
+import "./index.css";
 
 function App() {
   const token = useAuth()[0];

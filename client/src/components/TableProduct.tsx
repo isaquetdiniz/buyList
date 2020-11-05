@@ -92,7 +92,7 @@ const TableProduct: React.FC<Product> = ({ data }) => {
               });
             }}
           >
-            Informações
+            d Informações
           </Button>
           <Button
             onClick={() => {
