@@ -1,14 +1,40 @@
 import React from "react";
+import axios from "axios";
 
-import { Input, Form, Button, Space } from "antd";
+import { Input, Form, Button, Space, Modal } from "antd";
+import { useAuth } from "../context/AuthContextProvider";
 
 const FormProduct: React.FC = () => {
-  const onFinish = () => {
-    console.log("Success:");
+  const token = useAuth()[0];
+  const [form] = Form.useForm();
+  const onFinish = (values: Object) => {
+    newProduct(values);
   };
 
   const onFinishFailed = () => {
     console.log("Failed:");
+  };
+
+  const instance = axios.create({
+    baseURL: "http://localhost:3001",
+    timeout: 1000,
+    headers: { "x-access-token": token },
+  });
+
+  const newProduct = (values: Object) => {
+    instance
+      .post("/produto", values)
+      .then(() => {
+        Modal.success({ content: "Produto Cadastrado com sucesso!" });
+        form.resetFields();
+      })
+      .catch((err) => {
+        console.log(err);
+        Modal.error({
+          title: "Falha",
+          content: "Um erro ocorreu ao tentar cadastrar o produto",
+        });
+      });
   };
 
   const layout = {
@@ -25,6 +51,7 @@ const FormProduct: React.FC = () => {
       <Form
         {...layout}
         name="formProduct"
+        form={form}
         initialValues={{ remember: true }}
         onFinish={onFinish}
         onFinishFailed={onFinishFailed}
