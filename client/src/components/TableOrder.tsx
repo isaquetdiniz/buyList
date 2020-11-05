@@ -31,7 +31,7 @@ const TableOrder: React.FC = () => {
             Informações
           </Button>
           <Button onClick={() => {}}>Editar</Button>
-          <Button type="primary" onClick={() => {}}>
+          <Button type="primary" danger onClick={() => {}}>
             Deletar
           </Button>
         </Space>
