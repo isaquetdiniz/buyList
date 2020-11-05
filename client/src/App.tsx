@@ -21,8 +21,9 @@ function App() {
         <Route path="/" exact>
           {token ? <Redirect to="/edit" /> : <Redirect to="/login" />}
         </Route>
-        <Route path="/login" component={Login} />
+        <Route path="/login" component={token ? Edit : Login} />
         <Route path="/edit" component={token ? Edit : Login} />
+        <Route component={token ? Edit : Login} />
       </Switch>
     </Router>
   );
