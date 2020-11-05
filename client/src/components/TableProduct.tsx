@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
-
-import { Table, Space, Button } from "antd";
+import axios from "axios";
+import { useAuth } from "../context/AuthContextProvider";
+import { Table, Space, Button, Modal } from "antd";
 
 interface Products {
   id: number;
@@ -20,9 +21,31 @@ interface ProductsSource {
   precoUnitario: number;
   categoria: string;
 }
+
 const TableProduct: React.FC<Product> = ({ data }) => {
   const [dataSource, setDataSource] = useState<Array<ProductsSource>>([]);
+  const token = useAuth()[0];
 
+  const instance = axios.create({
+    baseURL: "http://localhost:3001",
+    timeout: 1000,
+    headers: { "x-access-token": token },
+  });
+
+  const deleteProduct = (record: number) => {
+    instance
+      .delete(`/produto/${record}`)
+      .then((res) => {
+        console.log(res);
+        Modal.success({ content: "Produto excluído com sucesso" });
+      })
+      .catch(() =>
+        Modal.error({
+          title: "Erro",
+          content: "Não não possível excluir o produto",
+        })
+      );
+  };
   const formatData = () => {
     if (data !== []) {
       const arrayProducts: Array<ProductsSource> = [];
@@ -47,13 +70,19 @@ const TableProduct: React.FC<Product> = ({ data }) => {
       title: "Opções",
       dataIndex: "opcoes",
       key: "opcoes",
-      render: (text: string, record: object) => (
+      render: (text: string, record: Products) => (
         <Space size="middle">
           <Button type="primary" onClick={() => {}}>
             Informações
           </Button>
           <Button onClick={() => {}}>Editar</Button>
-          <Button type="primary" danger onClick={() => {}}>
+          <Button
+            type="primary"
+            danger
+            onClick={() => {
+              deleteProduct(record.id);
+            }}
+          >
             Deletar
           </Button>
         </Space>

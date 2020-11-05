@@ -1,17 +1,23 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
+import { useAuth } from "../context/AuthContextProvider";
+import { Table, Space, Button, Modal } from "antd";
 
-import { Table, Space, Button } from "antd";
-
-interface Produto {
-  nome: string;
+enum Produto {
+  id,
+  nome,
+  descricao,
+  precoUnitario,
+  categoria,
 }
 
 interface Orders {
   id: string;
-  produto: Produto;
+  produto: Produto.nome;
   quantidade: string;
   precoSomatorio: string;
 }
+
 interface Order {
   data: Array<Orders>;
 }
@@ -19,12 +25,33 @@ interface Order {
 interface OrdersSource {
   key: string;
   id: string;
-  produto: string;
+  produto: Produto.nome;
   quantidade: string;
   precoSomatorio: string;
 }
+
 const TableOrder: React.FC<Order> = ({ data }) => {
   const [dataSource, setDataSource] = useState<Array<OrdersSource>>([]);
+
+  const token = useAuth()[0];
+
+  const instance = axios.create({
+    baseURL: "http://localhost:3001",
+    timeout: 1000,
+    headers: { "x-access-token": token },
+  });
+
+  const deleteProduct = (record: string) => {
+    instance
+      .delete(`/pedido/${record}`)
+      .then(() => Modal.success({ content: "Pedido deletado com sucesso" }))
+      .catch(() => {
+        Modal.error({
+          title: "Error",
+          content: "Não foi possível apagar o pedido",
+        });
+      });
+  };
 
   const formatData = () => {
     if (data !== []) {
@@ -33,7 +60,7 @@ const TableOrder: React.FC<Order> = ({ data }) => {
         arrayDataSource.push({
           key: pedido.id,
           id: pedido.id,
-          produto: pedido.produto.nome,
+          produto: pedido.produto,
           quantidade: pedido.quantidade,
           precoSomatorio: pedido.precoSomatorio,
         });
@@ -55,13 +82,19 @@ const TableOrder: React.FC<Order> = ({ data }) => {
       title: "Opções",
       dataIndex: "opcoes",
       key: "opcoes",
-      render: (text: string, record: object) => (
+      render: (text: string, record: Orders) => (
         <Space size="middle">
           <Button type="primary" onClick={() => {}}>
             Informações
           </Button>
           <Button onClick={() => {}}>Editar</Button>
-          <Button type="primary" danger onClick={() => {}}>
+          <Button
+            type="primary"
+            danger
+            onClick={() => {
+              deleteProduct(record.id);
+            }}
+          >
             Deletar
           </Button>
         </Space>
@@ -71,7 +104,6 @@ const TableOrder: React.FC<Order> = ({ data }) => {
 
   useEffect(() => {
     formatData();
-    console.log(data);
   }, [data]);
 
   return <Table dataSource={dataSource} columns={columns}></Table>;
