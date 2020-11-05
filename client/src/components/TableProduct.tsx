@@ -83,7 +83,15 @@ const TableProduct: React.FC<Product> = ({ data }) => {
       key: "opcoes",
       render: (text: string, record: Products) => (
         <Space size="middle">
-          <Button type="primary" onClick={() => {}}>
+          <Button
+            type="primary"
+            onClick={() => {
+              Modal.info({
+                title: "Mais informações",
+                content: `Descrição: ${record.descricao}`,
+              });
+            }}
+          >
             Informações
           </Button>
           <Button
