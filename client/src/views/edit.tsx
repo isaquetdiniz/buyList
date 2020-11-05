@@ -62,7 +62,7 @@ const Edit: React.FC = () => {
   useEffect(() => {
     getProducts();
     getOrders();
-  }, []);
+  }, [visibleNewProduct, visibleNewOrder]);
 
   return (
     <Space align="center" direction="vertical">
@@ -75,14 +75,14 @@ const Edit: React.FC = () => {
         <Button type="primary" onClick={() => setVisibleNewProduct(true)}>
           Adicionar Produto
         </Button>
-        <TableOrder data={orders} />
+        <TableOrder data={products} />
       </Space>
       <Space direction="vertical" size="middle">
         <Title level={3}>Pedidos</Title>
         <Button type="primary" onClick={() => setVisibleNewOrder(true)}>
           Adicionar Pedido
         </Button>
-        <TableProduct data={products} />
+        <TableProduct data={orders} />
       </Space>
       <Modal
         title="Cadastrar Novo Produto"
