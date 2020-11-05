@@ -34,6 +34,7 @@ const TableOrder: React.FC<Order> = ({ data }) => {
   const [dataSource, setDataSource] = useState<Array<OrdersSource>>([]);
 
   const token = useAuth()[0];
+  const setAttInformations = useAuth()[3];
 
   const instance = axios.create({
     baseURL: "http://localhost:3001",
@@ -44,7 +45,10 @@ const TableOrder: React.FC<Order> = ({ data }) => {
   const deleteProduct = (record: string) => {
     instance
       .delete(`/pedido/${record}`)
-      .then(() => Modal.success({ content: "Pedido deletado com sucesso" }))
+      .then(() => {
+        Modal.success({ content: "Pedido deletado com sucesso" });
+        setAttInformations();
+      })
       .catch(() => {
         Modal.error({
           title: "Error",

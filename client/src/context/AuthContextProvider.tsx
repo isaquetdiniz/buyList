@@ -4,9 +4,16 @@ const AuthContext = createContext([] as any);
 
 function AuthContextProvider({ children }: { children: React.ReactNode }) {
   const [token, setToken] = useState();
+  const [attInformations, setAtt] = useState<boolean>();
+
+  const setAttInformations = () => {
+    setAtt(!attInformations);
+  };
 
   return (
-    <AuthContext.Provider value={[token, setToken]}>
+    <AuthContext.Provider
+      value={[token, setToken, attInformations, setAttInformations]}
+    >
       {children}
     </AuthContext.Provider>
   );

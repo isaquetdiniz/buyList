@@ -25,6 +25,7 @@ interface ProductsSource {
 const TableProduct: React.FC<Product> = ({ data }) => {
   const [dataSource, setDataSource] = useState<Array<ProductsSource>>([]);
   const token = useAuth()[0];
+  const setAttInformations = useAuth()[3];
 
   const instance = axios.create({
     baseURL: "http://localhost:3001",
@@ -38,6 +39,7 @@ const TableProduct: React.FC<Product> = ({ data }) => {
       .then((res) => {
         console.log(res);
         Modal.success({ content: "Produto excluído com sucesso" });
+        setAttInformations();
       })
       .catch(() =>
         Modal.error({

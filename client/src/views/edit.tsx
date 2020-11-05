@@ -19,6 +19,7 @@ const Edit: React.FC = () => {
   const { Title } = Typography;
 
   const setToken = useAuth()[1];
+  const attInformations = useAuth()[2];
   const token = useAuth()[0];
 
   const history = useHistory();
@@ -62,7 +63,7 @@ const Edit: React.FC = () => {
   useEffect(() => {
     getProducts();
     getOrders();
-  }, [visibleNewProduct, visibleNewOrder]);
+  }, [visibleNewProduct, visibleNewOrder, attInformations]);
 
   return (
     <Space align="center" direction="vertical">
