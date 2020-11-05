@@ -100,9 +100,6 @@ const TableOrder: React.FC<Order> = ({ data, dataProducts }) => {
       key: "opcoes",
       render: (text: string, record: Orders) => (
         <Space size="middle">
-          <Button type="primary" onClick={() => {}}>
-            Informações
-          </Button>
           <Button
             onClick={() => {
               setVisibleEditOrder(true);
