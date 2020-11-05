@@ -2,8 +2,8 @@ import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { Typography, Button, Modal, Space } from "antd";
 
-import TableProduct from "../components/TableOrder";
-import TableOrder from "../components/TableProduct";
+import TableProduct from "../components/TableProduct";
+import TableOrder from "../components/TableOrder";
 
 import FormProduct from "../components/FormProduct";
 import FormOrder from "../components/FormOrder";
@@ -76,14 +76,14 @@ const Edit: React.FC = () => {
         <Button type="primary" onClick={() => setVisibleNewProduct(true)}>
           Adicionar Produto
         </Button>
-        <TableOrder data={products} />
+        <TableProduct data={products} />
       </Space>
       <Space direction="vertical" size="middle">
         <Title level={3}>Pedidos</Title>
         <Button type="primary" onClick={() => setVisibleNewOrder(true)}>
           Adicionar Pedido
         </Button>
-        <TableProduct data={orders} />
+        <TableOrder data={orders} />
       </Space>
       <Modal
         title="Cadastrar Novo Produto"
