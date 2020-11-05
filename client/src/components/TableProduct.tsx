@@ -9,12 +9,14 @@ const TableProduct: React.FC = () => {
       id: 1,
       nome: "Tomate",
       precoUnitario: 4.79,
+      categoria: "Verduras",
     },
   ];
   const columns = [
     { title: "ID", dataIndex: "id", key: "id" },
     { title: "Nome", dataIndex: "nome", key: "nome" },
     { title: "Preço", dataIndex: "precoUnitario", key: "precoUnitario" },
+    { title: "Categoria", dataIndex: "categoria", key: "categoria" },
     {
       title: "Opções",
       dataIndex: "opcoes",

@@ -1,17 +1,30 @@
-import React from "react";
+import React from 'react';
+import axios from 'axios';
 
-import { Typography, Input, Form, Button, Space } from "antd";
-import { UserOutlined } from "@ant-design/icons";
+import {
+  Typography, Input, Form, Button, Space, Modal,
+} from 'antd';
+import { UserOutlined } from '@ant-design/icons';
 
 const Login: React.FC = () => {
   const { Title } = Typography;
 
-  const onFinish = () => {
-    console.log("Success:");
+  const login = (values: object) => {
+    axios
+      .post('http://localhost:3001/login', values)
+      .then(() => console.log('foi'))
+      .catch(() => Modal.error({
+        title: 'Falha no Login ',
+        content: 'Usuário ou senha inválidos',
+      }));
+  };
+
+  const onFinish = (values: object) => {
+    login(values);
   };
 
   const onFinishFailed = () => {
-    console.log("Failed:");
+    console.log('Failed:');
   };
 
   const layout = {
@@ -36,14 +49,14 @@ const Login: React.FC = () => {
         <Form.Item
           label="Usuário/Email"
           name="name"
-          rules={[{ required: true, message: "Insira seu usuário!" }]}
+          rules={[{ required: true, message: 'Insira seu usuário!' }]}
         >
           <Input placeholder="Usuário/Email" prefix={<UserOutlined />} />
         </Form.Item>
         <Form.Item
           label="Senha"
           name="password"
-          rules={[{ required: true, message: "Insira sua senha" }]}
+          rules={[{ required: true, message: 'Insira sua senha' }]}
         >
           <Input.Password placeholder="Senha" />
         </Form.Item>

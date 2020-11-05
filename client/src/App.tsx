@@ -1,15 +1,12 @@
-import React from "react";
+import React from 'react';
 import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from "react-router-dom";
+  BrowserRouter as Router, Switch, Route, Redirect,
+} from 'react-router-dom';
 
-import Login from "./views/login";
-import Edit from "./views/edit";
+import Login from './views/login';
+import Edit from './views/edit';
 
-import "antd/dist/antd.css";
+import 'antd/dist/antd.css';
 
 function App() {
   return (

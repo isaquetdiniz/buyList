@@ -1,12 +1,14 @@
-import React, { useState } from "react";
+import React, { useState } from 'react';
 
-import { Typography, Button, Modal } from "antd";
+import {
+  Typography, Button, Modal, Space,
+} from 'antd';
 
-import TableProduct from "../components/TableOrder";
-import TableOrder from "../components/TableProduct";
+import TableProduct from '../components/TableOrder';
+import TableOrder from '../components/TableProduct';
 
-import FormProduct from "../components/FormProduct";
-import FormOrder from "../components/FormOrder";
+import FormProduct from '../components/FormProduct';
+import FormOrder from '../components/FormOrder';
 
 const Edit: React.FC = () => {
   const [visibleNewOrder, setVisibleNewOrder] = useState(false);
@@ -14,18 +16,22 @@ const Edit: React.FC = () => {
   const { Title } = Typography;
 
   return (
-    <>
+    <Space align="center" direction="vertical">
       <Title>Produtos e Pedidos</Title>
-      <Title level={3}>Produtos</Title>
-      <Button type="primary" onClick={() => setVisibleNewProduct(true)}>
-        Adicionar Produto
-      </Button>
-      <TableOrder />
-      <Title level={3}>Pedidos</Title>
-      <Button type="primary" onClick={() => setVisibleNewOrder(true)}>
-        Adicionar Pedido
-      </Button>
-      <TableProduct />
+      <Space direction="vertical" size="middle">
+        <Title level={3}>Produtos</Title>
+        <Button type="primary" onClick={() => setVisibleNewProduct(true)}>
+          Adicionar Produto
+        </Button>
+        <TableOrder />
+      </Space>
+      <Space direction="vertical" size="middle">
+        <Title level={3}>Pedidos</Title>
+        <Button type="primary" onClick={() => setVisibleNewOrder(true)}>
+          Adicionar Pedido
+        </Button>
+        <TableProduct />
+      </Space>
       <Modal
         title="Cadastrar Novo Produto"
         visible={visibleNewProduct}
@@ -46,7 +52,7 @@ const Edit: React.FC = () => {
       >
         <FormOrder />
       </Modal>
-    </>
+    </Space>
   );
 };
 
