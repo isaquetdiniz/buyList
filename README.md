@@ -31,7 +31,7 @@ O projeto consegue realizar as operações básicas e dar o feedback para o usu�
 
 ### Com o docker e o banco de dados criado
 1. Vamos configurar o **.env** para poder rodar o nosso server. 
-2. Entre na pasta do server, e crie um arquivo .env com:
+2. Entre na pasta do **server** , e crie um arquivo .env com:
 ```
 PORT=3001
 
@@ -47,7 +47,7 @@ DATABASE_DB=buylist
 DATABASE_DB_TEST=buytestlist
 ```
 3. Agora instale as dependências com ```yarn install```
-4. Agora podemos rodar nosso script de test com ```yarn test```, e aguarda os testes serem concluídos
+4. Agora podemos rodar nosso script de test com ```yarn test```, e aguardar os testes serem concluídos
 
 
 ### Após passar nos testes
@@ -64,7 +64,7 @@ DATABASE_DB_TEST=buytestlist
 }
 ```
 ### Após criar nosso usuário
-1. Podemos rodar o nosso front, para isso navegue até o client
+1. Podemos rodar o nosso front, para isso navegue até o **client**
 2. Instale as dependências com ```yarn```
 3. Rode o projeto com ```yarn start```
 4. Se ele não abrir automaticamente, estará rodando em ```localhost:3000```
