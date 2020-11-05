@@ -3,11 +3,14 @@ import axios from "axios";
 import { useAuth } from "../context/AuthContextProvider";
 import { Table, Space, Button, Modal } from "antd";
 
+import FormProduct from "./FormProduct";
+
 interface Products {
   id: number;
   nome: string;
   precoUnitario: number;
   categoria: string;
+  descricao: string;
 }
 
 interface Product {
@@ -20,10 +23,14 @@ interface ProductsSource {
   nome: string;
   precoUnitario: number;
   categoria: string;
+  descricao: string;
 }
 
 const TableProduct: React.FC<Product> = ({ data }) => {
   const [dataSource, setDataSource] = useState<Array<ProductsSource>>([]);
+  const [isVisileEditProduct, setIsVisibleEditProduct] = useState<boolean>();
+  const [details, setDetails] = useState<Products>();
+
   const token = useAuth()[0];
   const setAttInformations = useAuth()[3];
 
@@ -48,6 +55,7 @@ const TableProduct: React.FC<Product> = ({ data }) => {
         })
       );
   };
+
   const formatData = () => {
     if (data !== []) {
       const arrayProducts: Array<ProductsSource> = [];
@@ -58,6 +66,7 @@ const TableProduct: React.FC<Product> = ({ data }) => {
           nome: produto.nome,
           precoUnitario: produto.precoUnitario,
           categoria: produto.categoria,
+          descricao: produto.descricao,
         });
       });
       setDataSource(arrayProducts);
@@ -77,7 +86,14 @@ const TableProduct: React.FC<Product> = ({ data }) => {
           <Button type="primary" onClick={() => {}}>
             Informações
           </Button>
-          <Button onClick={() => {}}>Editar</Button>
+          <Button
+            onClick={() => {
+              setIsVisibleEditProduct(true);
+              setDetails(record);
+            }}
+          >
+            Editar
+          </Button>
           <Button
             type="primary"
             danger
@@ -93,7 +109,21 @@ const TableProduct: React.FC<Product> = ({ data }) => {
   ];
 
   useEffect(() => formatData(), [data]);
-  return <Table dataSource={dataSource} columns={columns}></Table>;
+  return (
+    <>
+      <Table dataSource={dataSource} columns={columns}></Table>
+      <Modal
+        title="Editar Produto"
+        visible={isVisileEditProduct}
+        onCancel={() => {
+          setIsVisibleEditProduct(false);
+        }}
+        footer={null}
+      >
+        <FormProduct isEdit details={details} />
+      </Modal>
+    </>
+  );
 };
 
 export default TableProduct;

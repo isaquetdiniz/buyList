@@ -1,14 +1,31 @@
-import React from "react";
+import React, { useEffect } from "react";
 import axios from "axios";
 
 import { Input, Form, Button, Space, Modal } from "antd";
 import { useAuth } from "../context/AuthContextProvider";
 
-const FormProduct: React.FC = () => {
+interface Product {
+  isEdit?: boolean;
+  details?: {
+    id: number;
+    nome: string;
+    categoria: string;
+    descricao: string;
+    precoUnitario: number;
+  };
+}
+
+const FormProduct: React.FC<Product> = ({ isEdit, details }) => {
   const token = useAuth()[0];
+  const setAttInformations = useAuth()[3];
   const [form] = Form.useForm();
+
   const onFinish = (values: Object) => {
-    newProduct(values);
+    if (isEdit) {
+      editProduct(values, details);
+    } else {
+      newProduct(values);
+    }
   };
 
   const onFinishFailed = () => {
@@ -36,6 +53,30 @@ const FormProduct: React.FC = () => {
         });
       });
   };
+
+  const editProduct = (values: Object, details: any) => {
+    instance
+      .put(`/produto/${details.id}`, values)
+      .then(() => {
+        Modal.success({ content: "Produto Editado com sucesso" });
+        setAttInformations();
+      })
+      .catch(() =>
+        Modal.error({ title: "Erro", content: "Erro ao editar produto" })
+      );
+  };
+
+  useEffect(() => {
+    if (isEdit && details) {
+      form.setFieldsValue({
+        id: details.id,
+        nome: details.nome,
+        categoria: details.categoria,
+        descricao: details.descricao,
+        precoUnitario: details.precoUnitario,
+      });
+    }
+  }, [details]);
 
   const layout = {
     labelCol: { span: 8 },
