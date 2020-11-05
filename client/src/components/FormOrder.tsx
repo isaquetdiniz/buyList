@@ -10,10 +10,13 @@ interface Produto {
 }
 interface Order {
   data?: Array<Produto>;
+  isEdit?: boolean;
+  details?: any;
 }
-const FormOrder: React.FC<Order> = ({ data }) => {
+const FormOrder: React.FC<Order> = ({ data, isEdit, details }) => {
   const [form] = Form.useForm();
   const token = useAuth()[0];
+  const setAttInformation = useAuth()[3];
 
   const instance = axios.create({
     baseURL: "http://localhost:3001",
@@ -33,8 +36,23 @@ const FormOrder: React.FC<Order> = ({ data }) => {
       });
   };
 
+  const editOrder = (values: Object, details: any) => {
+    instance
+      .put(`/pedido/${details.id}`, values)
+      .then(() => {
+        Modal.success({ content: "Pedido atualizado com sucesso!" });
+        setAttInformation();
+      })
+      .catch(() => {
+        Modal.error({ title: "Erro", content: "Falha ao atualizar pedido" });
+      });
+  };
   const onFinish = (values: Object) => {
-    newOrder(values);
+    if (isEdit) {
+      editOrder(values, details);
+    } else {
+      newOrder(values);
+    }
   };
 
   const onFinishFailed = () => {

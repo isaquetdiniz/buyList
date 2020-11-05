@@ -141,7 +141,7 @@ const TableOrder: React.FC<Order> = ({ data, dataProducts }) => {
         }}
         footer={null}
       >
-        <FormOrder data={dataProducts} />
+        <FormOrder isEdit details={details} data={dataProducts} />
       </Modal>
     </>
   );
